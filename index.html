@@ -320,21 +320,118 @@
       else:
         b ="凶"
       return([b,a])
-    
-    　date = Element("birthdate")#フォームの入力を整形
-      year = int(date.split("-")[0])
-      month = int(date.split("-")[1])
-      day = int(date.split("-")[2])
-      choice = Element("choice")
-      if choice == 0:
-        time = Element("time")
-        hour = int(time.split(":")[0])
-        minute = int(time.split(":")[1])
-      else:
-        hour = -1
 
-      loglist = []#パロメーター等を格納するリスト
+      def indicate():
+      　date = Element("birthdate")#フォームの入力を整形
+        year = int(date.split("-")[0])
+        month = int(date.split("-")[1])
+        day = int(date.split("-")[2])
+        choice = Element("choice")
+        if choice == 0:
+          time = Element("time")
+          hour = int(time.split(":")[0])
+          minute = int(time.split(":")[1])
+        else:
+          hour = -1
 
-      
+        loglist = []#パロメーター等を格納するリスト
+
+        #ここに時差修正をいれる(時刻不明の場合以外)
+        birthday = ja.localize(datetime.datetime(year,month,day,hour,minute))
+
+        tenkan = [-1]  * 4 #天干を入れるリスト(年月日時)
+        chishi = [-1]  * 4 #地支を入れるリスト(年月日時)
+
+        #ここから年干支を求める
+        if birthday.date() - sekki(year,2).date() < datetime.timedelta(days = 0 ):
+          year -= 1
+        a = year - 1924
+        tenkan[0] = jikkan(a)
+        chishi[0] = junishi(a)
+        #年干支ここまで
+
+        #ここから月干支を求める
+        if birthday.date() - sekki(year,month).date() < datetime.timedelta(days = 0):
+          month -= 1
+        monthnum = (year - 1924) * 12 + month
+        tenkan[1] = jikkan(monthnum)
+        chishi[1] = junishi(monthnum)
+        #月干支ここまで
+
+        #ここから日干支を求める
+        a = birthday.date() - datetime.date(1924,2,15)
+        nikkanNum = a.days
+        tenkan[2] = jikkan(nikkanNum)
+        chishi[2] = junishi(nikkanNum)
+        #日干支ここまで
+
+        conjection = False
+        #ここから時柱検索
+        if hour == "出生時刻不明":
+          conjection = True
+          jityuList = [] #各時柱を格納するリスト
+          if choice == 1:
+            hourList = (0, 6, 12, 18, 23)
+          elif choice == 2:
+            hourList = (4, 10, 16, 22)
+          else:
+            hourList = (2, 8, 14, 20)
+          for hourChoice in hourList:
+            birthday = ja.localize(datetime.datetime(year,month,day,hourChoice,0))
+            b = datetime.timedelta(hours = birthday.hour, minutes = birthday.minute, seconds = birthday.second)
+            b = ((b.total_seconds()// 60) + ((nikkanNum % 5) * 12 * 120 + 60)) // 120
+            b = math.ceil(b)
+            tenkan[3] = jikkan(b)
+            chishi[3] = junishi(b)
+            tenkan, kangoFlags, loglist = kango(tenkan, chishi, loglist) #干合を計算
+            jityuList.append([tuhensei(tenkan[2],tenkan[3]), tuhensei(tenkan[2],jikkan(chishi[3][6]))]) #時柱の通変星を格納
+          #ここから選択
+          print("次のなかで、後輩、部下、子供その他自分より目下の人との関係について最も当てはまるものを選んでください。")
+          for i in range(len(jityuList)):
+            a = ["",""]
+            for j in range(len(jityuList[i])):
+              if jityuList[i][j][0] == "比肩":
+                a[j] = "自分の友人のように親しく"
+              elif jityuList[i][j][0] == "劫財":
+                a[j] = "自分の弟のように"
+              elif jityuList[i][j][0] == "食神":
+                a[j] = "自分のパートナーのように愛情をもって"
+              elif jityuList[i][j][0] == "傷官":
+                a[j] = "自分の指導すべき対象として批判的に"
+              elif jityuList[i][j][0] == "偏財":
+                a[j] = "ある種の交渉相手として社交的に"
+              elif jityuList[i][j][0] == "正財":
+                a[j] = "自分の仕事の一部として"
+              elif jityuList[i][j][0] == "偏官":
+                a[j] = "競争相手として気を抜かずに"
+              elif jityuList[i][j][0] == "正官":
+                a[j] = "自分の管理対象として"
+              elif jityuList[i][j][0] == "偏印":
+                a[j] = "インスピレーションを与える存在として興味深く"
+              elif jityuList[i][j][0] == "印綬":
+                a[j] = "自分が学ぶべき相手として敬意をもって"
+            if a[0] == a[1]:
+              print(f"{str(i + 1)}：ほぼ全般的に{a[0]}扱っている")
+            else:
+              print(f"{str(i + 1)}：{a[0]}、そうでないときは、{a[1]}扱っている")
+          while True:
+            answer = input("ここに当てはまる数字を入力してください") #選択結果を入れる
+            if int(answer) < 0 or int(answer) > len(hourList):
+              print("エラー：選択肢の中の数字を半角数字で入力してください")
+            else:
+              break
+          hour = hourList[int(answer) - 1]
+        #ここから時干支を求める
+        b = datetime.timedelta(hours = birthday.hour, minutes = birthday.minute, seconds = birthday.second)
+        b = ((b.total_seconds()// 60) + ((nikkanNum % 5) * 12 * 120 + 60)) // 120
+        b = math.ceil(b)
+        tenkan[3] = jikkan(b)
+        chishi[3] = junishi(b)
+        #時干支ここまで
+
+        tenkan, kangoFlags, loglist = kango(tenkan, chishi, loglist) #干合を計算
+
+        tenkan = tuple(tenkan)
+        chsihi = tuple(chishi)
     </py-script>
   </body>
