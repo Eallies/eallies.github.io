@@ -289,7 +289,13 @@ def kikkyo(tenkan_jikkan, chishi_jikkan, kamilist): #吉凶判定の数値を出
 loglist = []#パロメーター等を格納するリスト
 
 
-def indicate():
+def indicate(date,time):
+  year = date.split("-")[0]
+  month = date.split("-")[1]
+  day = date.split("-")[2]
+  hour = time.split(":")[0]
+  minute = time.split(":")[1]
+  
   birthday = ja.localize(datetime.datetime(year,month,day,hour,minute))
 
   #ここから年干支を求める
