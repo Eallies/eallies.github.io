@@ -8,6 +8,7 @@
   <body>
     <py-config>
       packages = ["pandas", "numpy", "math", "datetime", "pytz", "tzlocal", "collections", "itertools", "tabulate", "sys", "matplotlib", "japanize_matplotlib"]
+      files = ["./indicate.py"]
     </py-config>
     
     <h1>
@@ -48,7 +49,7 @@
     <input class="favorite styled" type="button" value="診断開始" py-click="indicate()"/>
 
     <!-- ここから四柱推命プログラムをベタ打ち（モジュール化はそのうち考える）
-    <py-script>
+    <py-script src="./indicate.py">
       
     </py-script>
   </body>
