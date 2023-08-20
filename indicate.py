@@ -290,11 +290,11 @@ loglist = []#パロメーター等を格納するリスト
 
 
 def indicate(date,time):
-  year = date.split("-")[0]
-  month = date.split("-")[1]
-  day = date.split("-")[2]
-  hour = time.split(":")[0]
-  minute = time.split(":")[1]
+  year = int(date.split("-")[0])
+  month = int(date.split("-")[1])
+  day = int(date.split("-")[2])
+  hour = int(time.split(":")[0])
+  minute = int(time.split(":")[1])
   
   birthday = ja.localize(datetime.datetime(year,month,day,hour,minute))
 
