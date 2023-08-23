@@ -289,7 +289,7 @@ def kikkyo(tenkan_jikkan, chishi_jikkan, kamilist): #吉凶判定の数値を出
 loglist = []#パロメーター等を格納するリスト
 
 
-def indicate(date,time):
+def indicate(date,time,sex):
   year = int(date.split("-")[0])
   month = int(date.split("-")[1])
   day = int(date.split("-")[2])
