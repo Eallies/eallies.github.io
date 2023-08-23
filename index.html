@@ -47,10 +47,13 @@
       <input type="radio" id="female" name="sex" value="-1" />
       <label>女性</label>
     </div>
-    <input class="favorite styled" type="button" value="診断開始" py-click="indicate(date = Element("birthdate"), time = Element("birthtime"))"/>
+    <input class="favorite styled" type="button" value="診断開始" py-click="start_indicate()"/>
 
-    <!-- ここから四柱推命プログラムをベタ打ち（モジュール化はそのうち考える）
+    <!-- ここから四柱推命プログラムをベタ打ち
     <py-script src="./indicate.py">
-      
+      def start_indicate():
+        date = Element("birthdate")
+        time = Element("birthtime")
+        indicate(date = Element("birthdate"), time = Element("birthtime"))
     </py-script>
   </body>
