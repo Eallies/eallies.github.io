@@ -11,6 +11,9 @@
       packages = ["pandas", "numpy", "math", "datetime", "pytz", "tzlocal", "collections", "itertools", "tabulate", "sys", "matplotlib", "japanize_matplotlib"]
       files = ["./indicate.py"]
     </py-config>
+  　<!-- ここから四柱推命プログラム　-->
+    <py-script src="./indicate.py">
+    </py-script>
     
     <h1>
       エリシア式　四柱推命判定ソフト（建設中）
@@ -45,8 +48,4 @@
         <option value= "女性" >"女性"</option>
     </div>
     <a><input class="favorite styled" type="button" value="診断開始" py-click="indicate()"/></a>
-
-    <!-- ここから四柱推命プログラム　-->
-    <py-script src="./indicate.py">
-    </py-script>
   </body>
