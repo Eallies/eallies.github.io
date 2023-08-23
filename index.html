@@ -44,14 +44,9 @@
         <option value= "男性" >"男性"</option>
         <option value= "女性" >"女性"</option>
     </div>
-    <input class="favorite styled" type="button" value="診断開始" py-click="start_indicate()"/>
+    <a><input class="favorite styled" type="button" value="診断開始" py-click="indicate()"/></a>
 
     <!-- ここから四柱推命プログラムをベタ打ち
     <py-script src="./indicate.py">
-      def start_indicate():
-        date = Element("birthdate")
-        time = Element("birthtime")
-        sex = Element("sex")
-        indicate(date, time, sex)
     </py-script>
   </body>
