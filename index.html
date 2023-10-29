@@ -4,28 +4,9 @@
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    <py-env>
-      - pandas
-      - numpy
-      - math
-      - datetime
-      - pytz
-      - tzlocal
-      - collections
-      - itertools
-      - tubulate
-      - sys
-      - matplotlib
-      - japanize_matplotlib
-      - path:
-        - ./indicate.py
-    </py-env>
   </head>
   <body>
   　<!-- ここから四柱推命プログラム　-->
-    <py-script src="indicate.py">
-    </py-script>
-    
     <h1>
       エリシア式　四柱推命判定ソフト（建設中）
     </h1>
@@ -59,4 +40,8 @@
         <option value= "女性" >"女性"</option>
     </div>
     <a><input class="favorite styled" type="button" value="診断開始" py-click="indicate()"/></a>
+    <py-script>
+      borthday = input("生年月日を記入してください")
+      print(birthday)
+    </py-script>
   </body>
