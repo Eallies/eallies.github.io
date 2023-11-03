@@ -8,7 +8,7 @@
   <body>
   　<!-- ここから四柱推命プログラム　-->
     <py-config>
-      packages=["pytz","tzlocal","numpy","pandas"]
+      packages　=　["pytz","tzlocal","numpy","pandas"]
     </py-config>
     <h1>
       エリシア式　四柱推命判定ソフト（建設中）
@@ -395,42 +395,66 @@ def kikkyo(tenkan_jikkan, chishi_jikkan, kamilist): #吉凶判定の数値を出
 tenkan = [-1]  * 4 #天干を入れるリスト(年月日時)
 chishi = [-1]  * 4 #地支を入れるリスト(年月日時)
 loglist = []#パロメーター等を格納するリスト
-
 ja = pytz.timezone('Asia/Tokyo')
 
-birthdatehtml=Element("birthdate").value.split("-")
-birthtimehtml=Element("birthtime").value.split(":")
-year = int(birthdatehtml[0])
-month = int(birthdatehtml[1])
-day = int(birthdatehtml[2])
-hour = int(birthtimehtml[0])
-minute = int(birthtimehtml[1])
-birthday = ja.localize(datetime.datetime(year,month,day,hour,minute))
+def indicate():
+    birthdatehtml=Element("birthdate").value.split("-")
+    birthtimehtml=Element("birthtime").value.split(":")
+    year = int(birthdatehtml[0])
+    month = int(birthdatehtml[1])
+    day = int(birthdatehtml[2])
+    hour = int(birthtimehtml[0])
+    minute = int(birthtimehtml[1])
+    birthday = ja.localize(datetime.datetime(year,month,day,hour,minute))
+    
+    #ここから年干支を求める
+    if birthday.date() - sekki(year,2).date() < datetime.timedelta(days = 0 ):
+      a = year - 1
+    a = year - 1924
+    tenkan[0] = jikkan[a%10]
+    chishi[0] = junishi[a%12]
+    #年干支ここまで
+    
+    #ここから月干支を求める
+    monthnum = month
+    if birthday.date() - sekki(year,month).date() < datetime.timedelta(days = 0):
+      monthnum = month - 1
+    monthnum = (year - 1924) * 12 + monthnum
+    tenkan[1] = jikkan[monthnum%10]
+    chishi[1] = junishi[monthnum%12]
+    #月干支ここまで
+    
+    #ここから日干支を求める
+    a = birthday.date() - datetime.date(1924,2,15)
+    nikkanNum = a.days
+    tenkan[2] = jikkan[nikkanNum%10]
+    chishi[2] = junishi[nikkanNum%12]
+    #日干支ここまで
 
-#ここから年干支を求める
-if birthday.date() - sekki(year,2).date() < datetime.timedelta(days = 0 ):
-  a = year - 1
-a = year - 1924
-tenkan[0] = jikkan[a%10]
+    #ここから時干支を求める
+    b = datetime.timedelta(hours = birthday.hour, minutes = birthday.minute, seconds = birthday.second)
+    b = ((b.total_seconds()// 60) + ((nikkanNum % 5) * 12 * 120 + 60)) // 120
+    b = math.ceil(b)
+    tenkan[3] = jikkan[b%12]
+    chishi[3] = junishi[b%10]
+    #時干支ここまで
+    
+    tenkan, kangoFlags, loglist = kango(tenkan, chishi, loglist) #干合を計算
+    
+    tenkan = tuple(tenkan)
+    chsihi = tuple(chishi)
 
-chishi[0] = junishi[a%12]
-#年干支ここまで
 
-#ここから月干支を求める
-monthnum = month
-if birthday.date() - sekki(year,month).date() < datetime.timedelta(days = 0):
-  monthnum = month - 1
-monthnum = (year - 1924) * 12 + monthnum
-tenkan[1] = jikkan[monthnum%10]
-chishi[1] = junishi[monthnum%12]
-#月干支ここまで
-
-#ここから日干支を求める
-a = birthday.date() - datetime.date(1924,2,15)
-nikkanNum = a.days
-tenkan[2] = jikkan[nikkanNum%10]
-chishi[2] = junishi[nikkanNum%12]
-#日干支ここまで
+    #ここから書き込み
+    Element("nenkan").write(tenkan[0][0])
+    Element("nenshi").write(chishi[0][0])
+    Element("gekkan").write(tenkan[1][0])
+    Element("gesshi").write(chishi[1][0])
+    Element("nikkan").write(tenkan[2][0])
+    Element("nisshi").write(chishi[2][0])
+    Element("jikan").write(tenkan[3][0])
+    Element("jishi").write(chishi[3][0])
+    
     
       print(Element("birthdate").value)
     </py-script>
