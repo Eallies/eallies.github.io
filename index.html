@@ -396,6 +396,41 @@ tenkan = [-1]  * 4 #天干を入れるリスト(年月日時)
 chishi = [-1]  * 4 #地支を入れるリスト(年月日時)
 loglist = []#パロメーター等を格納するリスト
 
+ja = pytz.timezone('Asia/Tokyo')
+
+birthdatehtml=Element("birthdate").value.split("-")
+birthtimehtml=Element("birthtime").value.split(":")
+year = int(birthdatehtml[0])
+month = int(birthdatehtml[1])
+day = int(birthdatehtml[2])
+hour = int(birthtimehtml[0])
+minute = int(birthtimehtml[1])
+birthday = ja.localize(datetime.datetime(year,month,day,hour,minute))
+
+#ここから年干支を求める
+if birthday.date() - sekki(year,2).date() < datetime.timedelta(days = 0 ):
+  a = year - 1
+a = year - 1924
+tenkan[0] = jikkan[a%10]
+
+chishi[0] = junishi[a%12]
+#年干支ここまで
+
+#ここから月干支を求める
+monthnum = month
+if birthday.date() - sekki(year,month).date() < datetime.timedelta(days = 0):
+  monthnum = month - 1
+monthnum = (year - 1924) * 12 + monthnum
+tenkan[1] = jikkan[monthnum%10]
+chishi[1] = junishi[monthnum%12]
+#月干支ここまで
+
+#ここから日干支を求める
+a = birthday.date() - datetime.date(1924,2,15)
+nikkanNum = a.days
+tenkan[2] = jikkan[nikkanNum%10]
+chishi[2] = junishi[nikkanNum%12]
+#日干支ここまで
     
       print(Element("birthdate").value)
     </py-script>
