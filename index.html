@@ -40,6 +40,78 @@
         <option value= "女性" >"女性"</option>
     </div>
     <a><input class="favorite styled" type="button" value="診断開始" py-click="indicate()"/></a>
+    <p></p>
+    <p>診断結果</p>
+    <table border="5">
+      <tr>
+        <td>あなたの命式</td>
+      </tr>
+      <tr>
+        <th colspan="3">時柱</th>
+        <th colspan="3">日柱</th>
+        <th colspan="3">月柱</th>
+        <th colspan="3">年柱</th>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="jikan_tuhensei" colspan="3"></td>
+        <td ></td>
+        <td id="gekkan_tuhensei" colspan="3"></td>
+        <td id="nenkan_tuhensei" colspan="3"></td>
+        <th>通変星</th>
+      </tr>
+      <tr>
+        <td id="jikan" colspan="3"></td>
+        <td id="nikkan" colspan="3"></td>
+        <td id="gekkan" colspan="3"></td>
+        <td id="nenkan" colspan="3"></td>
+        <td>天干</td>
+      </tr>
+      <tr>
+        <td id="jishi" colspan="3"></td>
+        <td id="nisshi" colspan="3"></td>
+        <td id="gesshi" colspan="3"></td>
+        <td id="nenshi" colspan="3"></td>
+        <td>地支</td>
+      </tr>
+      <tr>
+        <td>余気</td><td>中気</td><td>本気</td>
+        <td>余気</td><td>中気</td><td>本気</td>
+        <td>余気</td><td>中気</td><td>本気</td>
+        <td>余気</td><td>中気</td><td>本気</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td id="jityu_yoki"></td>
+        <td id="jityu_tyuki"></td>
+        <td id="jityu_honki"></td>
+        <td id="nittyu_yoki"></td>
+        <td id="nittyu_tyuki"></td>
+        <td id="nittyu_honki"></td>
+        <td id="gettyu_yoki"></td>
+        <td id="gettyu_tyuki"></td>
+        <td id="gettyu_honki"></td>
+        <td id="nentyu_yoki"></td>
+        <td id="nentyu_tyuki"></td>
+        <td id="nentyu_honki"></td>
+        <td>蔵干</td>
+      </tr>
+      <tr>
+        <td id="jityu_yoki_tuhensei"></td>
+        <td id="jityu_tyuki_tuhensei"></td>
+        <td id="jityu_honki_tuhensei"></td>
+        <td id="nittyu_yoki_tuhensei"></td>
+        <td id="nittyu_tyuki_tuhensei"></td>
+        <td id="nittyu_honki_tuhensei"></td>
+        <td id="gettyu_yoki_tuhensei"></td>
+        <td id="gettyu_tyuki_tuhensei"></td>
+        <td id="gettyu_honki_tuhensei"></td>
+        <td id="nentyu_yoki_tuhensei"></td>
+        <td id="nentyu_tyuki_tuhensei"></td>
+        <td id="nentyu_honki_tuhensei"></td>
+        <td>通変星</td>
+      </tr>
+    </table>
     <py-script>
       print(Element("birthdate").value)
     </py-script>
