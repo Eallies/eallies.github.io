@@ -444,16 +444,62 @@ def indicate():
     tenkan = tuple(tenkan)
     chsihi = tuple(chishi)
 
+    #ここから各通変星を求める
+    tuhensei_list = [tenkan[i] for i in range(len(tenkan)) if i != 2]
+    
+    for i in range(4,len(chishi[0])):
+      for e in chishi:
+        if e[i] == -1:
+          tuhensei_list.append(0)
+        else:
+          tuhensei_list.append(jikkan(e[i]))
+    a = tenkan[2]
+    #通変星ここまで
 
     #ここから書き込み
     Element("nenkan").write(tenkan[0][0])
+    Element("nenkan_tuhensei").write(tuhensei(tuhensei_list[0],a)[0])
     Element("nenshi").write(chishi[0][0])
     Element("gekkan").write(tenkan[1][0])
+    Element("gekkan_tuhensei").write(tuhensei(tuhensei_list[1],a)[0])
     Element("gesshi").write(chishi[1][0])
     Element("nikkan").write(tenkan[2][0])
     Element("nisshi").write(chishi[2][0])
     Element("jikan").write(tenkan[3][0])
+    Element("jikan_tuhensei").write(tuhensei(tuhensei_list[2],a)[0])
     Element("jishi").write(chishi[3][0])
+      
+    Element("nentyu_yoki").write(jikkan[chishi[0][5])[0])
+    Element("nentyu_yoki_tuhensei").write(tuhensei(jikkan[chishi[0][5]),a)[0])
+    Element("gettyu_yoki").write(jikkan[chishi[1][5])[0])
+    Element("gettyu_yoki_tuhensei").write(tuhensei(jikkan[chishi[1][5]),a)[0])
+    Element("nittyu_yoki").write(jikkan[chishi[2][5])[0])
+    Element("nittyu_yoki_tuhensei").write(tuhensei(jikkan[chishi[2][5]),a)[0])
+    Element("jityu_yoki").write(jikkan[chishi[3][5])[0])
+    Element("jityu_yoki_tuhensei").write(tuhensei(jikkan[chishi[3][5]),a)[0])
+      
+    if chishi[0][6] != -1:
+      Element("nentyu_tyuki").write(jikkan[chishi[0][6])[0])
+      Element("nentyu_tyuki_tuhensei").write(tuhensei(jikkan[chishi[0][6]),a)[0])
+    if chishi[1][6] != -1:
+      Element("gettyu_tyuki").write(jikkan[chishi[1][6])[0])
+      Element("gettyu_tyuki_tuhensei").write(tuhensei(jikkan[chishi[1][6]),a)[0])
+    if chishi[2][6] != -1:
+      Element("nittyu_tyuki").write(jikkan[chishi[2][6])[0])
+      Element("nittyu_tyuki_tuhensei").write(tuhensei(jikkan[chishi[2][6]),a)[0])
+    if chishi[3][6] != -1:
+      Element("jityu_tyuki").write(jikkan[chishi[3][6])[0])
+      Element("jityu_tyuki_tuhensei").write(tuhensei(jikkan[chishi[3][6]),a)[0])
+      
+    Element("nentyu_honki").write(jikkan[chishi[0][7])[0])
+    Element("nentyu_honki_tuhensei").write(tuhensei(jikkan[chishi[0][7]),a)[0])
+    Element("gettyu_honki").write(jikkan[chishi[1][7])[0])
+    Element("gettyu_honki_tuhensei").write(tuhensei(jikkan[chishi[1][7]),a)[0])
+    Element("nittyu_honki").write(jikkan[chishi[2][7])[0])
+    Element("nittyu_honki_tuhensei").write(tuhensei(jikkan[chishi[2][7]),a)[0])
+    Element("jityu_honki").write(jikkan[chishi[3][7])[0])
+    Element("jityu_honki_tuhensei").write(tuhensei(jikkan[chishi[3][7]),a)[0])
+    
     
     
       print(Element("birthdate").value)
